@@ -1,3 +1,9 @@
+#my files
+key.json
+dbURL.json
+.vscode
+scripts/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
