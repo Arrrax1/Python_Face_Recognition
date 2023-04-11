@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import *
 
 import scripts.functions as Funcs
 
-# TODO: add animation to main login, and add functionalities/scripts
+# TODO: add redirects to main login, and add functionalities/scripts of other buttons.
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
