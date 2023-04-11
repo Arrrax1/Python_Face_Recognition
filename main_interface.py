@@ -4,6 +4,9 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+import scripts.functions as Funcs
+
+# TODO: add animation to main login, and add functionalities/scripts
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -134,6 +137,17 @@ class Ui_MainWindow(object):
         self.label_3.raise_()
         self.shadow_3.raise_()
         self.input_frame_3.raise_()
+        self.err_lbl = QtWidgets.QLabel(self.input_frame_3)
+        self.err_lbl.setGeometry(QtCore.QRect(100, 180, 170, 21))
+        font2 = QtGui.QFont()
+        font2.setFamily("Trebuchet MS")
+        font2.setPointSize(9)
+        font2.setBold(True)
+        font2.setWeight(40)
+        self.err_lbl.setFont(font2)
+        self.err_lbl.setStyleSheet("color: rgba(180, 0, 0,0.9); \n background-color: rgba(255, 255, 255,0);")
+        self.err_lbl.setText("")
+        self.err_lbl.setObjectName("err_lbl")
         self.stackedWidget.addWidget(self.login_panel)
 
         ###------------------------
@@ -1061,6 +1075,11 @@ class Ui_MainWindow(object):
         self.logout_btn.clicked.connect(lambda : self.stackedWidget.setCurrentWidget(self.login_panel))
         #-----------------------#
         #-----------------------#
+
+        # Functionality Buttons #
+        self.login_btn.clicked.connect(self.login)
+        #-----------------------#
+        #-----------------------#
         
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -1085,6 +1104,52 @@ class Ui_MainWindow(object):
         self.stackedWidget.setCurrentWidget(self.use_app_panel)
         MainWindow.move(25, 25)
         MainWindow.show()
+
+    #--------Login--------
+    #---------------------
+    
+    def login(self):
+        email = self.username_input.text()
+        password = self.password_input.text()
+        
+        try:            
+            user = Funcs.login(email,password)
+            if user:
+                print("User found!")
+                res = True
+                self.err_lbl.setText("")
+                pass #redirect depending on account type
+            else :
+                self.err_lbl.setText("Invalid infos or no Internet")
+                res = False
+        except Exception as e :
+            print(e)
+            res = False
+        if(not res):
+            self.animation()
+
+
+    def animation(self):
+        #first Animation to the Right
+        self.animat = QPropertyAnimation(self.login_btn, b'pos')
+        self.animat.setDuration(50) # mm seconds
+        self.animat.setEndValue(QPoint(self.login_btn.x()+5, self.login_btn.y()))
+
+        #Animation to the Left
+        self.animat1 = QPropertyAnimation(self.login_btn, b'pos')
+        self.animat1.setDuration(50) # mm seconds
+        self.animat1.setEndValue(QPoint(self.login_btn.x()-10, self.login_btn.y()))
+
+        #second Animation to the Right
+        self.animat2 = QPropertyAnimation(self.login_btn, b'pos')
+        self.animat2.setDuration(50) # mm seconds
+        self.animat2.setEndValue(QPoint(self.login_btn.x(), self.login_btn.y()))
+
+        self.anim_group = QSequentialAnimationGroup()
+        self.anim_group.addAnimation(self.animat)
+        self.anim_group.addAnimation(self.animat1)
+        self.anim_group.addAnimation(self.animat2)
+        self.anim_group.start()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
