@@ -6,6 +6,9 @@ from PyQt5.QtWidgets import *
 
 import scripts.functions as Funcs
 
+import json
+
+import urllib
 # TODO: add redirects to main login, and add functionalities/scripts of other buttons.
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -457,7 +460,7 @@ class Ui_MainWindow(object):
         self.text_confirm.setText("")
         self.text_confirm.setObjectName("text_confirm")
         self.label_logged_3 = QtWidgets.QLabel(self.input_frame_2)
-        self.label_logged_3.setGeometry(QtCore.QRect(70, 40, 101, 21))
+        self.label_logged_3.setGeometry(QtCore.QRect(70, 40, 121, 21))
         font = QtGui.QFont()
         font.setFamily("Trebuchet MS")
         font.setPointSize(11)
@@ -501,14 +504,14 @@ class Ui_MainWindow(object):
 "background-color: rgba(0, 0, 0,0.0);")
         self.label_logged_6.setObjectName("label_logged_6")
         self.error_label = QtWidgets.QLabel(self.input_frame_2)
-        self.error_label.setGeometry(QtCore.QRect(420, 270, 101, 21))
+        self.error_label.setGeometry(QtCore.QRect(398, 270, 150, 21))
         font = QtGui.QFont()
         font.setFamily("Trebuchet MS")
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
         self.error_label.setFont(font)
-        self.error_label.setStyleSheet("color: rgb(50, 50, 50);\n"
+        self.error_label.setStyleSheet("color: rgba(180, 0, 0,0.9);\n"
 "background-color: rgba(0, 0, 0,0.0);")
         self.error_label.setAlignment(QtCore.Qt.AlignCenter)
         self.error_label.setObjectName("error_label")
@@ -1078,11 +1081,13 @@ class Ui_MainWindow(object):
 
         # Functionality Buttons #
         self.login_btn.clicked.connect(self.login)
+        self.user_add_btn_confirm.clicked.connect(self.createUser)
         #-----------------------#
         #-----------------------#
         
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    #--------Functions--------#
     def returnAdminPanel(self,MainWindow):
         self.stackedWidget.setCurrentWidget(self.admin_panel)
     def open_Add_New_User(self,MainWindow):
@@ -1104,6 +1109,31 @@ class Ui_MainWindow(object):
         self.stackedWidget.setCurrentWidget(self.use_app_panel)
         MainWindow.move(25, 25)
         MainWindow.show()
+
+    #--------create User--------
+    #---------------------------
+    def createUser(self):
+        fullname = self.text_fullname.text()
+        email = self.text_email.text()
+        password = self.text_password.text()
+        password_confirm = self.text_confirm.text()
+        if(password == password_confirm and not password.isspace() ):
+            try:
+                created_user = Funcs.sign_up(email,password,fullname)
+                if (created_user[0]):
+                    self.error_label.setText("Created")
+                    user = created_user[1]
+                else:
+                #     print(created_user[1])
+                    self.error_label.setText(created_user[1])
+            except Exception as e:
+                print("ErrrrrrEXCEPT")
+                print(e)
+                self.error_label.setText("Host Error")
+        else:
+            self.error_label.setText("Password Error")
+            
+
 
     #--------Login--------
     #---------------------
@@ -1172,11 +1202,11 @@ class Ui_MainWindow(object):
         self.label_logged_2.setText(_translate("MainWindow", "Please fill in\n"
 "the informations"))
         self.user_add_btn_confirm.setText(_translate("MainWindow", "Add User"))
-        self.label_logged_3.setText(_translate("MainWindow", "Full Name :"))
+        self.label_logged_3.setText(_translate("MainWindow", "Full Name_Rank :"))
         self.label_logged_4.setText(_translate("MainWindow", "Email :"))
         self.label_logged_5.setText(_translate("MainWindow", "Password :"))
         self.label_logged_6.setText(_translate("MainWindow", "Confirm Password :"))
-        self.error_label.setText(_translate("MainWindow", "User Added"))
+        self.error_label.setText(_translate("MainWindow", ""))
         self.return_btn.setText(_translate("MainWindow", "⮑"))
         self.label_logged_7.setText(_translate("MainWindow", "You\'re about to\n"
 "delete an account !"))
