@@ -84,6 +84,9 @@ def delete_user(email):
         # print(user.__dict__["_data"]["localId"])
         firebase_admin_auth.delete_user(user.uid)
         #TODO: delete child DATA in Realtime DB
+        if(email.split('@')[1].split(".")[0]=="admin"):
+            ref = firebase_admin_db.reference('/')
+            ref.child("users").child(user.uid).delete()
         return "deleted user : " + user.email
         # return "done"
     except Exception as e:
