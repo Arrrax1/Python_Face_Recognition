@@ -1118,7 +1118,15 @@ class Ui_MainWindow(object):
         MainWindow.move(25, 25)
         MainWindow.show()
 
-    
+    #--------delete User--------
+    #---------------------------
+    def deleteUser(self):
+        email = self.text_email_delete.text()
+        try:
+            res = Funcs.delete_user(email)
+            print(res)
+        except Exception as e:
+            print(e)
     #--------create User--------
     #---------------------------
     def createUser(self):
