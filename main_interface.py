@@ -505,7 +505,7 @@ class Ui_MainWindow(object):
 "background-color: rgba(0, 0, 0,0.0);")
         self.label_logged_6.setObjectName("label_logged_6")
         self.error_label = QtWidgets.QLabel(self.input_frame_2)
-        self.error_label.setGeometry(QtCore.QRect(398, 270, 150, 21))
+        self.error_label.setGeometry(QtCore.QRect(308, 270, 240, 21))
         font = QtGui.QFont()
         font.setFamily("Trebuchet MS")
         font.setPointSize(10)
@@ -1163,7 +1163,7 @@ class Ui_MainWindow(object):
         password = self.password_input.text()
         try:            
             user = Funcs.login(email,password)
-            print(user["localId"])
+        #     print(user["localId"])
             if user:
                 print("User found!")
                 res = True

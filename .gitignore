@@ -1,8 +1,11 @@
 #my files
-key.json
+config.json
 dbURL.json
+creds.json
 .vscode
-scripts/
+scripts/creds.json
+scripts/dbURL.json
+scripts/configs.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
