@@ -10,6 +10,7 @@ import json
 
 import urllib
 # TODO: add redirects to main login, and add functionalities/scripts of other buttons.
+# TODO: when opening use APP, get all Encodings and save in array/dict/json to maake less calls
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -304,32 +305,32 @@ class Ui_MainWindow(object):
 "color:rgb(255,255,255);\n"
 "}")
         self.logout_btn.setObjectName("logout_btn")
-        self.current_user = QtWidgets.QLabel(self.input_frame)
-        self.current_user.setGeometry(QtCore.QRect(330, 180, 291, 41))
+        self.current_admin = QtWidgets.QLabel(self.input_frame)
+        self.current_admin.setGeometry(QtCore.QRect(330, 180, 291, 41))
         font = QtGui.QFont()
         font.setFamily("Trebuchet MS")
         font.setPointSize(24)
         font.setBold(True)
         font.setWeight(75)
-        self.current_user.setFont(font)
-        self.current_user.setStyleSheet("color: rgb(171, 8, 61);\n"
+        self.current_admin.setFont(font)
+        self.current_admin.setStyleSheet("color: rgb(171, 8, 61);\n"
 "background-color: rgba(0, 0, 0,0.0);\n"
 "text-align : center;")
-        self.current_user.setAlignment(QtCore.Qt.AlignCenter)
-        self.current_user.setObjectName("current_user")
-        self.user_rank = QtWidgets.QLabel(self.input_frame)
-        self.user_rank.setGeometry(QtCore.QRect(350, 250, 251, 41))
+        self.current_admin.setAlignment(QtCore.Qt.AlignCenter)
+        self.current_admin.setObjectName("current_admin")
+        self.current_rank = QtWidgets.QLabel(self.input_frame)
+        self.current_rank.setGeometry(QtCore.QRect(350, 250, 251, 41))
         font = QtGui.QFont()
         font.setFamily("Trebuchet MS")
         font.setPointSize(16)
         font.setBold(True)
         font.setWeight(75)
-        self.user_rank.setFont(font)
-        self.user_rank.setStyleSheet("color: rgb(171, 8, 61);\n"
+        self.current_rank.setFont(font)
+        self.current_rank.setStyleSheet("color: rgb(171, 8, 61);\n"
 "background-color: rgba(0, 0, 0,0.0);\n"
 "text-align : center;")
-        self.user_rank.setAlignment(QtCore.Qt.AlignCenter)
-        self.user_rank.setObjectName("user_rank")
+        self.current_rank.setAlignment(QtCore.Qt.AlignCenter)
+        self.current_rank.setObjectName("current_rank")
         
         self.label = QtWidgets.QLabel(self.admin_panel)
         self.label.setEnabled(True)
@@ -1057,6 +1058,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.stackedWidget)
         MainWindow.setCentralWidget(self.centralwidget)
 
+
+        self.my_admin = "Ana"
+        self.my_rank = "Unranked"
+
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(1)
 
@@ -1071,16 +1076,16 @@ class Ui_MainWindow(object):
         
 
         #-----Return Button-----#
-        self.return_btn.clicked.connect(lambda : self.returnAdminPanel(MainWindow))
-        self.return_btn_2.clicked.connect(lambda : self.returnAdminPanel(MainWindow))
-        self.return_btn_3.clicked.connect(lambda : self.returnAdminPanel(MainWindow))
-        self.return_btn_4.clicked.connect(lambda : self.returnAdminPanel(MainWindow))
+        self.return_btn.clicked.connect(lambda : self.returnAdminPanel(MainWindow,self.my_admin,self.my_rank))
+        self.return_btn_2.clicked.connect(lambda : self.returnAdminPanel(MainWindow,self.my_admin,self.my_rank))
+        self.return_btn_3.clicked.connect(lambda : self.returnAdminPanel(MainWindow,self.my_admin,self.my_rank))
+        self.return_btn_4.clicked.connect(lambda : self.returnAdminPanel(MainWindow,self.my_admin,self.my_rank))
         self.logout_btn.clicked.connect(lambda : self.stackedWidget.setCurrentWidget(self.login_panel))
         #-----------------------#
         #-----------------------#
 
         # Functionality Buttons #
-        self.login_btn.clicked.connect(self.login)
+        self.login_btn.clicked.connect(lambda : self.login(MainWindow))
         self.user_add_btn_confirm.clicked.connect(self.createUser)
         self.user_delete_btn.clicked.connect(self.deleteUser)
         #-----------------------#
@@ -1089,7 +1094,9 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     #--------Functions--------#
-    def returnAdminPanel(self,MainWindow):
+    def returnAdminPanel(self,MainWindow,adminName,adminRank):
+        self.current_admin.setText(adminName)
+        self.current_rank.setText(adminRank)
         self.stackedWidget.setCurrentWidget(self.admin_panel)
     def open_Add_New_User(self,MainWindow):
         self.stackedWidget.setCurrentWidget(self.add_user_panel)
@@ -1111,15 +1118,7 @@ class Ui_MainWindow(object):
         MainWindow.move(25, 25)
         MainWindow.show()
 
-    #--------create User--------
-    #---------------------------
-    def deleteUser(self):
-        email = self.text_email_delete.text()
-        try:
-            res = Funcs.delete_user(email)
-            print(res)
-        except Exception as e:
-            print(e)
+    
     #--------create User--------
     #---------------------------
     def createUser(self):
@@ -1131,8 +1130,11 @@ class Ui_MainWindow(object):
             try:
                 created_user = Funcs.sign_up(email,password,fullname)
                 if (created_user[0]):
-                    self.error_label.setText("Created")
-                    user = created_user[1]
+                    self.error_label.setText(f"Created {created_user[1]}")
+                    self.text_fullname.setText("")
+                    self.text_email.setText("")
+                    self.text_password.setText("")
+                    self.text_confirm.setText("")
                 else:
                 #     print(created_user[1])
                     self.error_label.setText(created_user[1])
@@ -1148,17 +1150,25 @@ class Ui_MainWindow(object):
     #--------Login--------
     #---------------------
     
-    def login(self):
+    def login(self, MainWindow):
         email = self.username_input.text()
         password = self.password_input.text()
-        
         try:            
             user = Funcs.login(email,password)
+            print(user["localId"])
             if user:
                 print("User found!")
                 res = True
+                userData = Funcs.get_data(user["localId"])
+                self.my_admin = userData[0]
                 self.err_lbl.setText("")
-                pass #redirect depending on account type
+                if(email.split('@')[1].split(".")[0]=="admin"):
+                    self.my_rank  = userData[1]
+                    self.returnAdminPanel(MainWindow,self.my_admin,self.my_rank)
+                #     self.stackedWidget.setCurrentWidget(self.admin_panel)
+                else:
+                    self.openUseApp(MainWindow)
+                #     self.stackedWidget.setCurrentWidget(self.use_app_panel)
             else :
                 self.err_lbl.setText("Invalid infos or no Internet")
                 res = False
@@ -1206,8 +1216,8 @@ class Ui_MainWindow(object):
         self.user_delete.setText(_translate("MainWindow", "Delete User"))
         self.data_upload.setText(_translate("MainWindow", "Upload Data"))
         self.data_edit.setText(_translate("MainWindow", "Edit Data"))
-        self.current_user.setText(_translate("MainWindow", "Youcef Rida"))
-        self.user_rank.setText(_translate("MainWindow", "Lieutenant"))
+        self.current_admin.setText(_translate("MainWindow", "Youcef Rida"))
+        self.current_rank.setText(_translate("MainWindow", "Lieutenant"))
         self.logout_btn.setText(_translate("MainWindow", "Logout"))
         self.label_logged_2.setText(_translate("MainWindow", "Please fill in\n"
 "the informations"))
