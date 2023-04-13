@@ -1082,6 +1082,7 @@ class Ui_MainWindow(object):
         # Functionality Buttons #
         self.login_btn.clicked.connect(self.login)
         self.user_add_btn_confirm.clicked.connect(self.createUser)
+        self.user_delete_btn.clicked.connect(self.deleteUser)
         #-----------------------#
         #-----------------------#
         
@@ -1110,6 +1111,15 @@ class Ui_MainWindow(object):
         MainWindow.move(25, 25)
         MainWindow.show()
 
+    #--------create User--------
+    #---------------------------
+    def deleteUser(self):
+        email = self.text_email_delete.text()
+        try:
+            res = Funcs.delete_user(email)
+            print(res)
+        except Exception as e:
+            print(e)
     #--------create User--------
     #---------------------------
     def createUser(self):
