@@ -6,6 +6,9 @@ from PyQt5.QtWidgets import *
 
 import scripts.functions as Funcs
 
+from PIL import Image
+import io
+
 import json
 
 import urllib
@@ -1098,6 +1101,7 @@ class Ui_MainWindow(object):
 
     #--------Functions--------#
     def returnAdminPanel(self,MainWindow,adminName,adminRank):
+        self.upload_data_btn.setEnabled(False)
         self.current_admin.setText(adminName)
         self.current_rank.setText(adminRank)
         self.stackedWidget.setCurrentWidget(self.admin_panel)
@@ -1120,6 +1124,18 @@ class Ui_MainWindow(object):
         self.stackedWidget.setCurrentWidget(self.use_app_panel)
         MainWindow.move(25, 25)
         MainWindow.show()
+    #--------Upload Image-------
+    #---------------------------
+    def uploadImage(self):
+        pass
+        # file_path, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Image Files (*.png *.jpg *.jpeg)")
+        # # Load the image and display it in the label
+        # if file_path:
+        #     self.label_image_preview.setPixmap(QtGui.QPixmap(file_path))
+            
+        #     self.upload_data_btn.setEnabled(True)
+        #     Funcs.upload_image_and_data(file_path,file_path)
+
 
     #--------delete User--------
     #---------------------------
@@ -1133,12 +1149,6 @@ class Ui_MainWindow(object):
         except Exception as e:
             print(e)
 
-    def uploadImage(self):
-        file_path, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Image Files (*.png *.jpg *.jpeg)")
-
-        # Load the image and display it in the label
-        if file_path:
-            self.label_image_preview.setPixmap(QtGui.QPixmap(file_path))
     #--------create User--------
     #---------------------------
     def createUser(self):
