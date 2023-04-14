@@ -506,7 +506,7 @@ class Ui_MainWindow(object):
 "background-color: rgba(0, 0, 0,0.0);")
         self.label_logged_6.setObjectName("label_logged_6")
         self.error_label = QtWidgets.QLabel(self.input_frame_2)
-        self.error_label.setGeometry(QtCore.QRect(208, 270, 340, 21))
+        self.error_label.setGeometry(QtCore.QRect(308, 270, 340, 21))
         font = QtGui.QFont()
         font.setFamily("Trebuchet MS")
         font.setPointSize(10)
@@ -640,7 +640,7 @@ class Ui_MainWindow(object):
         self.label_logged_8.setAlignment(QtCore.Qt.AlignCenter)
         self.label_logged_8.setObjectName("label_logged_8")
         self.error_label_2 = QtWidgets.QLabel(self.input_frame_4)
-        self.error_label_2.setGeometry(QtCore.QRect(230, 320, 151, 21))
+        self.error_label_2.setGeometry(QtCore.QRect(225, 320, 201, 21))
         font = QtGui.QFont()
         font.setFamily("Trebuchet MS")
         font.setPointSize(10)
@@ -815,10 +815,12 @@ class Ui_MainWindow(object):
 "color:rgb(255,255,255);\n"
 "}")
         self.upload_img_btn.setObjectName("upload_img_btn")
+        self.upload_img_btn.clicked.connect(self.uploadImage)
         self.label_image_preview = QtWidgets.QLabel(self.input_frame_5)
         self.label_image_preview.setGeometry(QtCore.QRect(400, 121, 141, 141))
         self.label_image_preview.setAlignment(QtCore.Qt.AlignCenter)
         self.label_image_preview.setObjectName("label_image_preview")
+        self.label_image_preview.setScaledContents(True)
         self.label_foramt = QtWidgets.QLabel(self.input_frame_5)
         self.label_foramt.setGeometry(QtCore.QRect(80, 160, 151, 21))
         font = QtGui.QFont()
@@ -1130,6 +1132,13 @@ class Ui_MainWindow(object):
             print(res)
         except Exception as e:
             print(e)
+
+    def uploadImage(self):
+        file_path, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Image Files (*.png *.jpg *.jpeg)")
+
+        # Load the image and display it in the label
+        if file_path:
+            self.label_image_preview.setPixmap(QtGui.QPixmap(file_path))
     #--------create User--------
     #---------------------------
     def createUser(self):
