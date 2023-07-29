@@ -99,3 +99,11 @@ def get_data(uid):
     res[0]=ref.child("users").child(uid).child("displayName").get()
     res[1]=ref.child("users").child(uid).child("rank").get()
     return res
+
+def upload_image_and_data(remote_path,compressed_image):
+    bucket = firebase_admin_storage.bucket()
+    lasteIndex = len(remote_path.split("/"))
+    blob = bucket.blob(remote_path.split("/")[lasteIndex-1])
+    # blob.upload_from_file(compressed_image)
+    
+    blob.upload_from_filename(compressed_image)

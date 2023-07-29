@@ -5,6 +5,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import scripts.functions as Funcs
+import scripts.detect as recognition
 
 from PIL import Image
 import io
@@ -14,6 +15,8 @@ import json
 import urllib
 # TODO: add redirects to main login, and add functionalities/scripts of other buttons.
 # TODO: when opening use APP, get all Encodings and save in array/dict/json to maake less calls
+stop_value=1
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -931,6 +934,7 @@ class Ui_MainWindow(object):
         ###------------------------
         ###-------------Use App Panel
         ###------------------------
+        self.stop_value=0
         self.use_app_panel = QtWidgets.QWidget()
         self.use_app_panel.setObjectName("use_app_panel")
         self.frame = QtWidgets.QFrame(self.use_app_panel)
@@ -1058,6 +1062,34 @@ class Ui_MainWindow(object):
 "}")
         self.exit_btn.setObjectName("exit_btn")
         self.exit_btn.clicked.connect(lambda : sys.exit())
+
+        self.refresh_db_btn = QtWidgets.QPushButton(self.use_app_user_info_panel)
+        self.refresh_db_btn.setGeometry(QtCore.QRect(80, 610, 100, 25))
+        self.refresh_db_btn.setText("Refresh")
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.refresh_db_btn.setFont(font)
+        self.refresh_db_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.refresh_db_btn.setStyleSheet("QPushButton{\n"
+"border:2px solid rgba(17, 94, 8,0.7);\n"
+"color:rgba(17, 94, 8,0.7);\n"
+"border-radius:3px;\n"
+
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"background-color:rgba(17, 94, 8,0.7);\n"
+"color:rgb(255,255,255);\n"
+"}")
+        self.refresh_db_btn.setObjectName("refresh_db_btn")
+
+        # set on click methods after all buttons created
+        self.start_camera_btn.clicked.connect(lambda : recognition.readtree(self.start_camera_btn,self.stop_camera_btn,self.refresh_db_btn,self.label_11,self.spinBox))
+        self.stop_camera_btn.clicked.connect(lambda : recognition.stop(self.start_camera_btn,self.stop_camera_btn,self.refresh_db_btn))
+        # self.refresh_db_btn.clicked.connect(recognition.multi_threads(MainWindow))
+
         #-----------------------
         #-----------------------
         self.stackedWidget.addWidget(self.use_app_panel)
@@ -1065,8 +1097,8 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
 
-        self.my_admin = "Ana"
-        self.my_rank = "Unranked"
+        self.my_admin = "Arrrax1"
+        self.my_rank = "Diamond"
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(1)

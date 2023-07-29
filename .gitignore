@@ -6,6 +6,9 @@ creds.json
 scripts/creds.json
 scripts/dbURL.json
 scripts/configs.json
+Arax.jpg
+*.xlsx
+popup.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
