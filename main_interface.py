@@ -1041,7 +1041,7 @@ class Ui_MainWindow(object):
 "}")
         self.stop_camera_btn.setObjectName("stop_camera_btn")
         self.exit_btn = QtWidgets.QPushButton(self.use_app_user_info_panel)
-        self.exit_btn.setGeometry(QtCore.QRect(80, 560, 100, 25))
+        self.exit_btn.setGeometry(QtCore.QRect(80, 590, 100, 25))
         self.exit_btn.setText("Exit")
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -1064,7 +1064,7 @@ class Ui_MainWindow(object):
         self.exit_btn.clicked.connect(lambda : sys.exit())
 
         self.refresh_db_btn = QtWidgets.QPushButton(self.use_app_user_info_panel)
-        self.refresh_db_btn.setGeometry(QtCore.QRect(80, 610, 100, 25))
+        self.refresh_db_btn.setGeometry(QtCore.QRect(80, 540, 100, 25))
         self.refresh_db_btn.setText("Refresh")
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -1073,14 +1073,14 @@ class Ui_MainWindow(object):
         self.refresh_db_btn.setFont(font)
         self.refresh_db_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.refresh_db_btn.setStyleSheet("QPushButton{\n"
-"border:2px solid rgba(17, 94, 8,0.7);\n"
-"color:rgba(17, 94, 8,0.7);\n"
+"border:2px solid rgb(0, 122, 204);\n"
+"color:rgb(0, 122, 204);\n"
 "border-radius:3px;\n"
 
 "}\n"
 "\n"
 "QPushButton:hover{\n"
-"background-color:rgba(17, 94, 8,0.7);\n"
+"background-color:rgb(0, 122, 204);\n"
 "color:rgb(255,255,255);\n"
 "}")
         self.refresh_db_btn.setObjectName("refresh_db_btn")
@@ -1088,7 +1088,7 @@ class Ui_MainWindow(object):
         # set on click methods after all buttons created
         self.start_camera_btn.clicked.connect(lambda : recognition.readtree(self.start_camera_btn,self.stop_camera_btn,self.refresh_db_btn,self.label_11,self.spinBox))
         self.stop_camera_btn.clicked.connect(lambda : recognition.stop(self.start_camera_btn,self.stop_camera_btn,self.refresh_db_btn))
-        # self.refresh_db_btn.clicked.connect(recognition.multi_threads(MainWindow))
+        self.refresh_db_btn.clicked.connect(lambda : recognition.multi_threads(self))
 
         #-----------------------
         #-----------------------

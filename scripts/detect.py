@@ -32,33 +32,40 @@ def multi_threads(passedArg):
         return passedArg.window
     new_Window=openPopup()
     passedArg.centralwidget.setEnabled(False)
-    thread1 = threading.Thread(target=generateXML, args=("encodings.xml",new_Window,passedArg.centralwidget))
+    thread1 = threading.Thread(target=generateXML, args=("encodings.xml",new_Window,passedArg))
     thread1.start()
 
 # encode images
 def findEncodings(images):
-        encodeList = []
-        for img in images:
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            encoding = face_recognition.face_encodings(img)[0]
-            encodeList.append(encoding)
-        return encodeList
+    encodeList = []
+    for img in images:
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        encoding = face_recognition.face_encodings(img)[0]
+        encodeList.append(encoding)
+    return encodeList
 
 # Function that Creates XML file of Encodings
-def generateXML(filename,new_Window,centralwidget):
+def generateXML(filename,new_Window,passedSelf):
 
     root = xml.Element("Faces")
     soldiersImages = []
     soldiersNames = []
     myData = os.listdir('imagesDB')
+    print(myData)
 
     size = len(myData)
     # iterate over all the images in the folder
     for data in myData:
         curImage = cv2.imread(f'imagesDB/{data}')
-        soldiersImages.append(curImage)
-        soldiersNames.append(data.split('.')[0])
+        if curImage is not None:
+            soldiersImages.append(curImage)
+            soldiersNames.append(data.split('.')[0])
+        else:
+            print(f"Error: Unable to load the image '{data}'")
 
+        # soldiersImages.append(curImage)
+        # soldiersNames.append(data.split('.')[0])
+    
     # save encondings in array
     encodedListKnown = findEncodings(soldiersImages)
     print('Encoded Successfully')
@@ -81,7 +88,7 @@ def generateXML(filename,new_Window,centralwidget):
         tree.write(files)
         print("Refreshed Successfully")
     new_Window.close()
-    centralwidget.setEnabled(True)
+    passedSelf.centralwidget.setEnabled(True)
 
 # Starting the APP
 def readtree(startBtn,stopBtn,refreshBtn,display_Label,spinBox):
@@ -175,8 +182,7 @@ def readtree(startBtn,stopBtn,refreshBtn,display_Label,spinBox):
         display_image(img,display_Label,1)
         cv2.waitKey()
     cap.release()
-    display_Label.setPixmap(QtGui.QPixmap("../images/wave_background.svg"))
-    display_Label.setText("<html><head/><body><p align=\"center\">Press Start to begin Detecting</p></body></html>")
+    display_Label.setPixmap(QtGui.QPixmap("./images/wave_background.svg"))
 
 
 

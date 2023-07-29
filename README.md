@@ -4,7 +4,8 @@
 ---
 ### Features
 - Face detection and recognition using OpenCV and face_recognition libraries
-- Add new students and their images to the database
+- SignUp and Login to use the App
+- Add new students and their images to the database // Locally (too lazy to configure firebase)
 - Take attendance by capturing images of the students
 - View attendance reports in xlsx format
 ### Prerequisites
@@ -12,11 +13,14 @@
 - OpenCV
 - face_recognition
 - NumPy
+- xml.etree.ElementTree
+- openpyxl
+- threading
 - (for now, might add libraries and forget to edit this)
 ### Installation
 > currenetly, I did not upload all the files (Functional Scripts) the working version is on Beta.
->The owner company privacy policy does not allow me to do so, but there will be a link for the demo.
- [Demo link]().
+> The owner company privacy policy does not allow me to do so, but there will be a link for the demo.
+ [Demo link](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
 ### Contributing
 * Contributions are welcome! Please feel free to submit a pull request or open an issue if you encounter any problems or have suggestions for improvement.
 
