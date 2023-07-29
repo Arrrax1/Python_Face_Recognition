@@ -1086,7 +1086,7 @@ class Ui_MainWindow(object):
         self.refresh_db_btn.setObjectName("refresh_db_btn")
 
         # set on click methods after all buttons created
-        self.start_camera_btn.clicked.connect(lambda : recognition.readtree(self.start_camera_btn,self.stop_camera_btn,self.refresh_db_btn,self.label_11,self.spinBox))
+        self.start_camera_btn.clicked.connect(lambda : recognition.readtree(self.start_camera_btn,self.stop_camera_btn,self.refresh_db_btn,self.label_11,self.spinBox,self.use_app_user_fname_label,self.use_app_user_lname_label,self.use_app_user_rank_label,self.use_app_user_image_label))
         self.stop_camera_btn.clicked.connect(lambda : recognition.stop(self.start_camera_btn,self.stop_camera_btn,self.refresh_db_btn))
         self.refresh_db_btn.clicked.connect(lambda : recognition.multi_threads(self))
 

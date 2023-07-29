@@ -91,7 +91,7 @@ def generateXML(filename,new_Window,passedSelf):
     passedSelf.centralwidget.setEnabled(True)
 
 # Starting the APP
-def readtree(startBtn,stopBtn,refreshBtn,display_Label,spinBox):
+def readtree(startBtn,stopBtn,refreshBtn,display_Label,spinBox,fName,lName,rank,userImageLabel):
     global stop_value
     stop_value=0
     startBtn.setEnabled(False)
@@ -157,6 +157,11 @@ def readtree(startBtn,stopBtn,refreshBtn,display_Label,spinBox):
 
                 cv2.putText(img, name, (x1 + 6, y2 + 25), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 100, 0), 1,cv2.LINE_4)
 
+                name_parts = name.split('_')
+                fName.setText(name_parts[0] if len(name_parts) > 0 else "Unknown")
+                lName.setText(name_parts[1] if len(name_parts) > 1 else "Unknown")
+                rank.setText(name_parts[2] if len(name_parts) > 2 else "Unknown")
+                userImageLabel.setStyleSheet(f"border-image: url('./imagesDB/{name}.jpg'); \n border-radius: 30%; \n     ")
                 markAttendance(name)
             else:
 
@@ -231,12 +236,12 @@ def markAttendance(name):
         c1.value = f"Attendance for Day : {today_date}"
         c1 = work_sheet.cell(row= 2 , column = 1)
         c1.value = "Full Name"
-        c1.fill = PatternFill(bgColor="8cc963", fill_type = "solid")
+        c1.fill = PatternFill(start_color="8CC963", end_color="8CC963", fill_type = "solid")
         c1.alignment = Alignment(horizontal='center')
         c1.font = Font(bold=True)
         c1 = work_sheet.cell(row= 2 , column = 2)
         c1.value = "Time Arrived"
-        c1.fill = PatternFill(bgColor="8cc963", fill_type = "solid")
+        c1.fill = PatternFill(start_color="8CC963", end_color="8CC963", fill_type = "solid")
         c1.alignment = Alignment(horizontal='center')
         c1.font = Font(bold=True)
         work_sheet.merge_cells('A1:D1')
