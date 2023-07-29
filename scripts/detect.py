@@ -214,8 +214,9 @@ def display_image(img,display_Label,window=1):
     display_Label.setPixmap(QPixmap.fromImage(outImage))
 
 # HyperLink function
-def doSomething(click):
-    webbrowser.open('http://instagram.com/yacinezerimi', new=2)
+def openLink(click):
+    webbrowser.open('https://www.linkedin.com/in/yacinezerimi/', new=2)
+    webbrowser.open('https://arrrax1.github.io/portfolio/', new=2)
 
 # Attendance
 def markAttendance(name):

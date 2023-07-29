@@ -147,6 +147,15 @@ class Ui_MainWindow(object):
         self.label_3.raise_()
         self.shadow_3.raise_()
         self.input_frame_3.raise_()
+        
+        font.setPointSize(9)
+        self.contact_lbl = QtWidgets.QLabel(self.login_panel)
+        self.contact_lbl.setGeometry(QtCore.QRect(330, 474, 252, 21))
+        self.contact_lbl.setFont(font)
+        self.contact_lbl.setStyleSheet("color: rgb(245, 245, 245);text-decoration:underline")
+        self.contact_lbl.setObjectName("contact_lbl")
+        self.contact_lbl.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.contact_lbl.mousePressEvent = recognition.openLink
         self.err_lbl = QtWidgets.QLabel(self.input_frame_3)
         self.err_lbl.setGeometry(QtCore.QRect(100, 180, 170, 21))
         font2 = QtGui.QFont()
@@ -1101,7 +1110,7 @@ class Ui_MainWindow(object):
         self.my_rank = "Diamond"
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
 
         #----- Change Page -----#
         self.user_add_btn.clicked.connect(lambda : self.open_Add_New_User(MainWindow))
@@ -1272,6 +1281,7 @@ class Ui_MainWindow(object):
         self.password_input.setPlaceholderText(_translate("MainWindow", "*****"))
         self.username_lbl.setText(_translate("MainWindow", "Username"))
         self.password_lbl.setText(_translate("MainWindow", "Password"))
+        self.contact_lbl.setText(_translate("MainWindow", "Need help? Click here to Contact Developer"))
         self.label_logged.setText(_translate("MainWindow", "Logged in as :"))
         self.user_add_btn.setText(_translate("MainWindow", "Add User"))
         self.start_btn.setText(_translate("MainWindow", "Use App"))
